@@ -12,6 +12,7 @@ import fs from "fs";
 
 // Import SDK functions for writing and drawing from db
 import * as SDK from "./lib/sdk.js";
+import type { Favorite } from "./types.js";
 
 SDK.setBaseUrl("http://localhost:3000");
 
@@ -28,12 +29,6 @@ const args = process.argv.slice(2);
 const command = args[0];
 const favorite = args[1];
 const url = args[2];
-
-interface Favorite {
-  id?: number;
-  name: string;
-  url: string;
-}
 
 // pull ALL favorites and manipulate depending on CLI command
 const favorites: Favorite[] = await SDK.getFavorites();
@@ -127,7 +122,7 @@ const rm = async (name: string) => {
     process.exit(1);
   }
 
-  await SDK.deleteFavorite(favToDelete.id);
+  await SDK.deleteFavorite(favToDelete.id!);
   console.log("removing", name);
 };
 

@@ -11,7 +11,7 @@
     "watch": "tsc --watch",
     "build": "tsc",
     "start": "node dist/src/app.js",
-    "test": "tsc && node dist/SDK tests/sdk.js"
+    "test": "tsc && node dist/tests/sdk.js"
   },
   "keywords": [],
   "author": "",

@@ -1,20 +1,19 @@
 #!/usr/bin/env node
-//@ts-nocheck
 
 // Without ECMA
 // const { exec } = require('child_process');
 
 // With ECMA
-import { exec } from 'child_process';
-import open, { apps } from 'open';
-import dotenv from 'dotenv';
-import Database from 'better-sqlite3';
-import fs from 'fs';
+import { exec } from "child_process";
+import open, { apps } from "open";
+import dotenv from "dotenv";
+import Database from "better-sqlite3";
+import fs from "fs";
 
 // Import SDK functions for writing and drawing from db
-import * as SDK from './lib/sdk.js';
+import * as SDK from "./lib/sdk.js";
 
-SDK.setBaseUrl('http://localhost:3000');
+SDK.setBaseUrl("http://localhost:3000");
 
 dotenv.config();
 
@@ -30,23 +29,29 @@ const command = args[0];
 const favorite = args[1];
 const url = args[2];
 
+interface Favorite {
+  id?: number;
+  name: string;
+  url: string;
+}
+
 // pull ALL favorites and manipulate depending on CLI command
-const favorites = await SDK.getFavorites();
+const favorites: Favorite[] = await SDK.getFavorites();
 
 function checkBrowser() {
   // Remember question mark means if any of these throw undefined, do not crash system, instead throw error
   const browser = process.env?.BROWSER?.toLocaleLowerCase();
-  let appName = browser;
+  let appName: string | readonly string[] | undefined = browser;
   // console.log(appName);
 
   switch (browser) {
-    case 'chrome':
+    case "chrome":
       appName = apps.chrome;
       break;
-    case 'firefox':
+    case "firefox":
       appName = apps.firefox;
       break;
-    case 'edge':
+    case "edge":
       appName = apps.edge;
       break;
   }
@@ -54,13 +59,13 @@ function checkBrowser() {
 }
 
 function displayMenu() {
-  console.log('ls                     : List all favorites');
-  console.log('open <favorite>        : Open a saved favorite');
-  console.log('add <favorite> <url>   : add a new favorite for some URL');
-  console.log('rm <favorite>          : remove a saved favorite.');
+  console.log("ls                     : List all favorites");
+  console.log("open <favorite>        : Open a saved favorite");
+  console.log("add <favorite> <url>   : add a new favorite for some URL");
+  console.log("rm <favorite>          : remove a saved favorite.");
 }
 
-async function openFavorite(name) {
+async function openFavorite(name: string) {
   const favToOpen = favorites.find((fav) => fav.name === name);
   if (!favToOpen) {
     console.log(`Favorite ${name} does not exist`);
@@ -69,7 +74,7 @@ async function openFavorite(name) {
 
   const url = favToOpen.url;
 
-  console.log('Opening', favorite);
+  console.log("Opening", favorite);
 
   // let command;
 
@@ -93,7 +98,7 @@ async function openFavorite(name) {
 
   // }
 
-  console.log('opening', url);
+  console.log("opening", url);
   const appName = checkBrowser();
 
   // If user doesn't provide a browser, open with default browser
@@ -106,16 +111,16 @@ async function openFavorite(name) {
   }
 }
 
-const add = async (name, url) => {
+const add = async (name: string, url: string) => {
   const id = await SDK.addFavorite(name, url);
   if (!id) {
     console.log(`Filed to add favorite ${name}.`);
     process.exit(1);
   }
-  console.log('adding', name, url);
+  console.log("adding", name, url);
 };
 
-const rm = async (name) => {
+const rm = async (name: string) => {
   const favToDelete = favorites.find((fav) => fav.name === name);
   if (!favToDelete) {
     console.log(`Favorite ${name} does not exist`);
@@ -123,11 +128,11 @@ const rm = async (name) => {
   }
 
   await SDK.deleteFavorite(favToDelete.id);
-  console.log('removing', name);
+  console.log("removing", name);
 };
 
 const ls = async () => {
-  console.log('ALL favorites:');
+  console.log("ALL favorites:");
   favorites.forEach((favorite) => {
     console.log(`${favorite.name}: ${favorite.url}`);
   });
@@ -191,13 +196,22 @@ switch (command) {
 }
 */
 
+interface Command {
+  f: Function;
+  argCount: number;
+}
+
+interface Commands {
+  [key: string]: Command;
+}
+
 // Less code, same outcome
 const commands = {
   ls: { f: ls, argCount: 1 },
   open: { f: openFavorite, argCount: 2 },
   rm: { f: rm, argCount: 2 },
   add: { f: add, argCount: 3 },
-};
+} as Commands;
 
 if (
   argCount === 0 ||

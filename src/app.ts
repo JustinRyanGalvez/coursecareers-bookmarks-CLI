@@ -215,12 +215,12 @@ const commands = {
 
 if (
   argCount === 0 ||
-  !commands[command] ||
-  argCount < commands[command].argCount
+  !commands[command!] ||
+  argCount < commands[command!]?.argCount!
 ) {
   displayMenu();
   process.exit(1);
 }
 
 // Needs await because of the await involved in the commands
-await commands[command].f(favorite, url);
+await commands[command!]?.f(favorite, url);

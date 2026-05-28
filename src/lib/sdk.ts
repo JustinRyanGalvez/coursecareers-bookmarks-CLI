@@ -4,11 +4,11 @@ let baseUrl: string;
 
 // Allows for our baseUrl to be exported to main.js
 // Better to have a setter than to hard modify exported values
-export const setBaseUrl = (url: string) => {
+export const setBaseUrl = (url: string): void => {
   baseUrl = url;
 };
 
-export const getFavorites = async () => {
+export const getFavorites = async (): Promise<Favorite[]> => {
   const response = await fetch(`${baseUrl}/favorites`);
   const json = await response.json();
 
@@ -16,7 +16,9 @@ export const getFavorites = async () => {
   return json.favorites;
 };
 
-export const getFavorite = async (id: number) => {
+export const getFavorite = async (
+  id: number | undefined,
+): Promise<Favorite> => {
   const response = await fetch(`${baseUrl}/favorites/${id}`);
   const json = await response.json();
 
@@ -25,7 +27,10 @@ export const getFavorite = async (id: number) => {
 };
 
 //use name,url for simplicity. Better use for scaling is using a favorite object that you can then pull for all this stuff
-export const addFavorite = async (name: string, url: string) => {
+export const addFavorite = async (
+  name: string,
+  url: string,
+): Promise<number> => {
   const response = await fetch(`${baseUrl}/favorites`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -36,7 +41,7 @@ export const addFavorite = async (name: string, url: string) => {
   return json.id;
 };
 
-export const deleteFavorite = async (id: number) => {
+export const deleteFavorite = async (id: number): Promise<number> => {
   const response = await fetch(`${baseUrl}/favorites/${id}`, {
     method: "DELETE",
   });
@@ -45,7 +50,10 @@ export const deleteFavorite = async (id: number) => {
   return response.status;
 };
 
-export const replaceFavorite = async (id: number, newFav: Favorite) => {
+export const replaceFavorite = async (
+  id: number | undefined,
+  newFav: Favorite,
+): Promise<Favorite> => {
   const response = await fetch(`${baseUrl}/favorites/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

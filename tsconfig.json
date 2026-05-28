@@ -3,9 +3,9 @@
     "module": "esnext",
     "target": "esnext",
     "types": [],
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
     "noUncheckedIndexedAccess": true,
     "strict": true,
     "jsx": "react-jsx",
@@ -14,8 +14,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": ".",
-    "noEmit": true
+    "outDir": "./dist",
+    "rootDir": "."
   }
 }

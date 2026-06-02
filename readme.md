@@ -14,6 +14,6 @@ To use:
 Commands:
 
 - ls : List all favorites
-- open <favorite> : Open a saved favorite
-- add <favorite> <url> : add a new favorite for some URL
-- rm <favorite> : remove a saved favorite.
+- open `name of favorite` : Open a saved favorite
+- add `name of favorite` `url` : add a new favorite for some URL
+- rm `name of favorite` : remove a saved favorite.

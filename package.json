@@ -5,7 +5,7 @@
   "files": [
     "dist"
   ],
-  "main": "dist/app.js",
+  "main": "dist/src/app.js",
   "scripts": {
     "dev": "tsc && node dist/src/app.js",
     "watch": "tsc --watch",
@@ -18,7 +18,7 @@
   "license": "ISC",
   "type": "module",
   "bin": {
-    "favs": "src/main.js"
+    "favs": "dist/src/app.js"
   },
   "dependencies": {
     "better-sqlite3": "^12.6.2",
